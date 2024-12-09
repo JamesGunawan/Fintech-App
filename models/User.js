@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';  // DataTypes for defining the model schema
-import sequelize from '../config/db.js'; // Sequelize instance for DB connection
+import sequelize from '../config/config.js'; // Sequelize instance for DB connection
 import bcrypt from 'bcrypt'; // For hashing passwords securely
 
 

@@ -1,7 +1,7 @@
 // Importing required dependencies
 import express from 'express';  // Express for routing
 import dotenv from 'dotenv'; // dotenv for loading environment variables
-import sequelize from './config/db.js';  // Sequelize instance for DB connection
+import sequelize from './config/config.js';  // Sequelize instance for DB connection
 import { signUp, login } from './routes/authRoutes.js'; // Authentication routes
 import { deposit, withdraw } from './routes/transactionRoutes.js'; // Transaction routes
 import cors from 'cors';  // Import CORS package

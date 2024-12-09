@@ -1,13 +1,12 @@
-# FinTech Transaction Tracking App
+# FinTech-App
 
-A simple web application for tracking financial transactions like deposits and withdrawals. Users can create an account, log in, and manage their balance through deposits and withdrawals.
+A full-stack web application for tracking financial transactions like deposits and withdrawals. Users can create an account, log in, and manage their balance through deposits and withdrawals, with a focus on secure authentication and data storage.
 
 ### Features
-- **User Authentication**: Users can sign up, log in, and manage their accounts.
-- **Transaction Management**: Users can make deposits and withdrawals to/from their balance.
+- **User Authentication**: Users can sign up (and nothing else. logging in, transactions will be implemented soon)
 - **Secure Authentication**: Passwords are securely hashed using bcrypt, and JWT tokens are used for authentication.
 
-### Tech Stack
+### Layout
 
 - **Backend**
   - JavaScript (Node.js)
@@ -25,7 +24,7 @@ A simple web application for tracking financial transactions like deposits and w
   - dotenv (for managing environment variables)
   - CORS (for enabling cross-origin resource sharing)
 
-# Get Started
+# Geting Started
 
 ### Prerequisites
 - **Node.js**: Make sure you have Node.js installed on your local machine.
@@ -33,13 +32,15 @@ A simple web application for tracking financial transactions like deposits and w
 
 ### Installing
 1. **Clone the repository**: 
-- `git clone https://github.com/your-username/fintech.git`
+- `git clone https://github.com/your-username/Fintech-App.git`
 - `cd fintech`
 
 2. **Install dependencies**:
-- `npm install mysql2 sequelize nodemon dotenv bcrypt jsonwebtoken`
+- `npm install mysql2 sequelize dotenv bcrypt jsonwebtoken`
+### Sidenote
+- If you want live server reload, you can install nodemon by running `npm install nodemon` and then run the server with `nodemon server.js`
 
-3. **Set up the database**: 
+3. **Seting up the database**: 
 - Create a new MySQL database.
 - Create a new MySQL tab and create a new database by executing 
 ```MySQL
@@ -55,29 +56,13 @@ DB_NAME=fintech
 ```
 
 4. **Run the backend server**:
-`npx nodemon index.js
+`npm start
 `
-
-# Frontend setup
-
-1. **Navigate to the front end directory**:
-- `cd fintech-frontend`
-
-2. **Open `index.html` in your browser**:
-- You can either open the file directly in your browser or run a local server (for example, using the Live Server extension in Visual Studio Code).
-
-3. **Connect the frontend to the backend**:
-- Ensure that your frontend is making requests to http://localhost:3000/signup and other relevant backend endpoints.
-
-### Run the backend server
-- `npx nodemon index.js`
-
 
 ### Usage
 - Enter a username, email, and password, then click "Sign Up".
-- Check mySQL to confirm data upload
-
-The rest is WIP
+- Check mySQL to confirm data upload 
+- (more features soon)
 
 # Project Structure
 
@@ -85,7 +70,7 @@ The rest is WIP
 fintech/
 │
 ├── config/
-│   └── db.js                    # Database connection setup
+│   └── config.js                    # Database connection setup
 ### Cors (Cross Origin Resource Sharing)
 │
 ├── models/
@@ -102,16 +87,10 @@ fintech/
 └── package-lock.json             # Locked dependencies version
 ```
 # Notes
-
-### 1. Cors (Cross Origin Resource Sharing)
-- Since the frontend and backend are running on different ports during development (e.g., frontend on localhost:5500 and backend on localhost:3000), CORS is required to allow the frontend to make API requests to the backend.
-
-- CORS is enabled in the backend by using the cors package. If you want to remove or modify the CORS settings, you can uninstall the cors package and adjust the index.js file accordingly. 
-
-### 2. Database Setup
+### 1. Database Setup
 - Make sure you create a MySQL database (e.g., fintech_db) before running the backend. You can update the .env file with the appropriate database credentials.
 
-### 3. JWT Authentication
+### 2. JWT Authentication
 - When logging in, a JWT (JSON Web Token) is returned. You can use this token to access protected routes or implement additional features like token expiration and refresh tokens.
 
 
