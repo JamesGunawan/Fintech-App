@@ -41,17 +41,17 @@ A simple web application for tracking financial transactions like deposits and w
 
 3. **Set up the database**: 
 - Create a new MySQL database.
-- In the `.env` file, configure the database connection:
-
-3. **Set up the database**: 
-- Create a new MySQL database.
+- Create a new MySQL tab and create a new database by executing 
+```MySQL
+CREATE DATABASE fintech;
+```
 - In the `.env` file, configure the database connection:
 
 ```plaintext
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_password
-DB_NAME=fintech_db
+DB_NAME=fintech
 ```
 
 4. **Run the backend server**:
