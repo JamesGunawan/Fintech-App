@@ -20,7 +20,7 @@ const deposit = async (req, res) => {
 
  // Creating a transaction record for the deposit
     await Transaction.create({
-      userId,
+      userid,
       amount,
       type: 'deposit', // The type of transaction is 'deposit'
     });
@@ -55,7 +55,7 @@ const withdraw = async (req, res) => {
 
     // Creating a transaction record for the withdrawal
     await Transaction.create({
-      userId,
+      userid,
       amount,
       type: 'withdraw', // The type of transaction is 'withdraw'
     });

@@ -3,6 +3,8 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
   
     // Get form values
     const username = document.getElementById('username').value;
+    const first_name = document.getElementById('first_name').value;
+    const last_name = document.getElementById('last_name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
   
@@ -12,6 +14,8 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
     // Create an object to send in the request body
     const data = {
       username,
+      first_name,
+      last_name,
       email,
       password
     };
@@ -41,4 +45,5 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
       document.getElementById('message').style.color = 'red';
     }
   });
+  
   

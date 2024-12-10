@@ -4,13 +4,21 @@ import User from '../models/user.js';  // Importing User model to interact with 
 
 // Sign up route handler 
 const signUp = async (req, res) => {
-  const { username, email, password } = req.body;  // Destructuring request body for username, email, and password
+  const { username, first_name, last_name, email, password } = req.body;  // Destructuring request body for username, email, and password
   try {
-// Creating a new user in the database
-    const newUser = await User.create({ username, email, password });
-    res.status(201).json(newUser); // Responding with the newly created user
+    // Check if the email already exists
+    const existingUser  = await User.findOne({ where: { email } });
+    if (existingUser ) {
+      return res.status(400).json({ message: 'Email already in use' }); // Return error if email exists
+    }
+
+    // Creating a new user in the database
+    const newUser  = await User.create({ username, first_name, last_name, email, password });
+    res.status(201).json(newUser ); // Responding with the newly created user
   } catch (error) {
-    res.status(500).json({ message: 'Error signing up user', error });  // Error handling
+    // Handle other errors (e.g., database errors)
+    console.error('Error signing up user:', error); // Log the error for debugging
+    res.status(500).json({ message: 'Error signing up user', error: error.message });  // Return a generic error message
   }
 };
 

@@ -4,17 +4,35 @@ import sequelize from '../config/config.js';  // Sequelize instance for DB conne
 
 // Defining the 'Transaction' model to log deposits and withdrawals
 const Transaction = sequelize.define('Transaction', {
-  amount: { 
-    type: DataTypes.FLOAT,  // Amount of transaction (float type)
-    allowNull: false, // Amount cannot be empty
+  transaction_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+  },
+  amount: {
+      type: DataTypes.DECIMAL(12, 2),
+      allowNull: false,
   },
   type: {
-    type: DataTypes.ENUM('deposit', 'withdraw'), // Enum for transaction type (either deposit or withdraw)
-    allowNull: false,  // Type cannot be null
+      type: DataTypes.ENUM('deposit', 'withdrawal'),
+      allowNull: false,
   },
-  userId: {
-    type: DataTypes.INTEGER,  // Integer for user ID associated with the transaction
-    allowNull: false, // User ID cannot be null
+  date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      },
+  description: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+  },
+  user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'Users',  // Name of the target model (User)
+          key: 'user_id',  // The key (column) to reference in the User model
+      },
   },
 });
 
