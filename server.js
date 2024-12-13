@@ -22,7 +22,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the fintech-frontend directory
-app.use(express.static(path.join(__dirname, 'fintech-frontend')));
+app.use(express.static(path.join(__dirname, 'views')));
+
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+
+// Set the directory where your EJS files will be located
+app.set('views', path.join(__dirname, 'views')); // Create a 'views' folder in your project
 
 // User authentication routes
 app.post('/signup', signUp);  // Sign up route
@@ -34,7 +40,7 @@ app.post('/withdraw', withdraw);  // Withdraw route
 
 // Route for the root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'fintech-frontend', 'auth.html')); // Serve index.html
+  res.render('auth', { message: '' }); // You can pass data to the template here
 });
 
 // Sync Sequelize models and start the server

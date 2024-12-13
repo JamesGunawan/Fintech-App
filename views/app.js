@@ -12,7 +12,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
     document.getElementById('message').textContent = '';
   
     // Create an object to send in the request body
-    const data = {
+    const signupData = {
       username,
       first_name,
       last_name,
@@ -27,7 +27,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(signupData),
       });
   
       const result = await response.json();
@@ -46,4 +46,10 @@ document.getElementById('signUpForm').addEventListener('submit', async function 
     }
   });
   
-  
+document.getElementById('login_button').addEventListener('click', () => {
+    document.querySelector('.flipbox_inner').classList.add('flipped');
+});
+
+document.getElementById('signup_button').addEventListener('click', () => {
+  document.querySelector('.flipbox_inner').classList.remove('flipped');
+});
