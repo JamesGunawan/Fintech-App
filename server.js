@@ -34,7 +34,7 @@ app.post('/withdraw', withdraw);  // Withdraw route
 
 // Route for the root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'fintech-frontend', 'index.html')); // Serve index.html
+  res.sendFile(path.join(__dirname, 'fintech-frontend', 'auth.html')); // Serve index.html
 });
 
 // Sync Sequelize models and start the server
