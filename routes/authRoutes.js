@@ -25,27 +25,28 @@ const signUp = async (req, res) => {
 // Login user
 const login = async (req, res) => {
   const { email, password } = req.body; // Destructuring request body for email and password 
-  
+
   try {
-  // Finding the user by email in the database
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });  // If user doesn't exist
-    }
+      // Finding the user by email in the database
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+          return res.status(404).json({ message: 'User  not found' });  // If user doesn't exist
+      }
 
-// Comparing the provided password with the hashed password in the database
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+      // Comparing the provided password with the hashed password in the database
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+      }
 
-// Generating a JWT token for the authenticated user
-    const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    res.json({ token });
+      // If login is successful, redirect to index.ejs
+      res.redirect('/home');
   } catch (error) {
-    res.status(500).json({ message: 'Error logging in', error });
+      res.status(500).json({ message: 'Error logging in', error });
   }
 };
+
+
 
 // Exporting the routes for use in other parts of the application
 export { signUp, login };

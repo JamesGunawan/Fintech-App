@@ -22,7 +22,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the fintech-frontend directory
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -40,8 +40,13 @@ app.post('/withdraw', withdraw);  // Withdraw route
 
 // Route for the root path
 app.get('/', (req, res) => {
-  res.render('auth', { message: '' }); // You can pass data to the template here
+  res.render('auth', { message: '' }); 
 });
+
+app.get('/home', (req, res) => {
+  res.render('index.ejs'); // Serve index.ejs at the /home route
+});
+
 
 // Sync Sequelize models and start the server
 await sequelize.sync();
@@ -50,3 +55,4 @@ await sequelize.sync();
 app.listen(3000, () => {
   console.log('Server running on port http://localhost:3000...');
 });
+
