@@ -12,10 +12,21 @@
     </div>
 
     <div class="transaction">
-       Quick Transaction
-        Amount
-        Type
-        Description
+        <h3>Quick Transaction</h3>
+        <form id="transactionForm">
+            <h4>Amount</h4>
+            <input type="number" id="transactionAmount" required> 
+            <h4>Type</h4>
+            <select id="transactionType" required>
+                <option value="deposit">Deposit</option>
+                <option value="withdraw">Withdraw</option>
+            </select>
+            <h4>Description</h4>
+            <input type="text" id="transactionDescription" required> 
+            <button type="submit">Submit</button>
+        </form>
     </div>
+    
+    <script src="/transauth.js"></script>
 </body>
 </html>

@@ -59,13 +59,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   e.preventDefault();  // Prevent the default form submission
 
   // Get form values
-  const username = document.getElementById('login_username').value;
   const email = document.getElementById('login_email').value;
   const password = document.getElementById('login_password').value;
 
   // Create an object to send in the request body
   const loginData = {
-      username,
       email,
       password
   };
@@ -84,14 +82,24 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
       // Check if the login was successful
       if (response.ok) {
-          // Redirect to index.ejs or handle successful login
-          window.location.href = '/home'; // Redirect to the home page
+          const token = result.token; // Assuming the token is returned in the response
+          const userId = result.userId; // Assuming the userId is returned in the response
+
+          // Store the token and userId in sessionStorage
+          sessionStorage.setItem('jwt', token);
+          sessionStorage.setItem('userId', userId);
+
+          // Redirect to the home page
+          window.location.href = '/home'; 
       } else {
           // Handle errors (e.g., invalid credentials)
-          document.getElementById('message').textContent = result.message || 'An error occurred.';
-          document.getElementById('message').style.color = 'red';
+          document.getElementById('messages').textContent = result.message || 'An error occurred.';
+          document.getElementById('messages').style.color = 'red';
+          document.getElementById('messages').style.zIndex = '1';
+          document.getElementById('messages').style.marginTop= '10px';
       }
-  } catch (error) { // for some reason error only works when the credentials are correct???? so this acts as a successful login
-      window.location.href = '/home'; // Redirect to the home page
+  } catch (error) {
+      document.getElementById('messages').textContent = 'Error connecting to the server.';
+      document.getElementById('messages').style.color = 'red';
   }
 });

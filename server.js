@@ -9,6 +9,7 @@ import path from 'path';  // Import path module to resolve directory paths
 import { fileURLToPath } from 'url'; // Import fileURLToPath
 import { dirname } from 'path'; // Import dirname
 
+
 dotenv.config();
 const app = express();
 
@@ -49,7 +50,8 @@ app.get('/home', (req, res) => {
 
 
 // Sync Sequelize models and start the server
-await sequelize.sync();
+await sequelize.sync()
+
 
 // Start the server
 app.listen(3000, () => {

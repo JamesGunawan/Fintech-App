@@ -22,6 +22,8 @@ const signUp = async (req, res) => {
   }
 };
 
+const SECRET_KEY = process.env.JWT_SECRET || 'I*enyoinyo*&@YO*@Y'; // Use a strong secret key
+
 // Login user
 const login = async (req, res) => {
   const { email, password } = req.body; // Destructuring request body for email and password 
@@ -30,7 +32,7 @@ const login = async (req, res) => {
       // Finding the user by email in the database
       const user = await User.findOne({ where: { email } });
       if (!user) {
-          return res.status(404).json({ message: 'User  not found' });  // If user doesn't exist
+          return res.status(404).json({ message: 'User   not found' });  // If user doesn't exist
       }
 
       // Comparing the provided password with the hashed password in the database
@@ -39,14 +41,15 @@ const login = async (req, res) => {
           return res.status(400).json({ message: 'Invalid credentials' });
       }
 
-      // If login is successful, redirect to index.ejs
-      res.redirect('/home');
+      // If login is successful, generate a JWT
+      const token = jwt.sign({ userId: user.user_id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+
+      // Respond with the token and userId
+      res.json({ token, userId: user.user_id });
   } catch (error) {
       res.status(500).json({ message: 'Error logging in', error });
   }
 };
-
-
 
 // Exporting the routes for use in other parts of the application
 export { signUp, login };

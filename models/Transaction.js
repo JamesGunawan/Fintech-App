@@ -14,7 +14,7 @@ const Transaction = sequelize.define('Transaction', {
       type: DataTypes.DECIMAL(12, 2),
       allowNull: false,
   },
-  type: {
+  type: {   
       type: DataTypes.ENUM('deposit', 'withdrawal'),
       allowNull: false,
   },
