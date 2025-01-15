@@ -1,68 +1,91 @@
 import User from '../models/user.js';  // Importing User model to interact with the User table
 import Transaction from '../models/transaction.js'; // Importing Transaction model to log transactions
+import jwt from 'jsonwebtoken';
+import { SECRET_KEY } from './authRoutes.js';
 
-// Deposit route handler
-const deposit = async (req, res) => { 
-  const { userId, amount, description } = req.body; // Destructuring request body for user ID, amount, and description
+const deposit = async (req, res) => {
+  const { amount, description } = req.body;
+  const token = req.headers.authorization.split(' ')[1];
 
   try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userId = decoded.userId;
+
+    // Parse the amount as a decimal with 2 decimal places
+    const depositAmount = parseFloat(amount).toFixed(2);
+
     // Finding the user by userId
-    const user = await User.findByPk(userId); 
+    const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: 'User  not found' });
     }
 
     // Adding the deposit amount to the user's balance
-    user.balance += amount;
+    user.balance = (parseFloat(user.balance) + parseFloat(depositAmount)).toFixed(2);
     await user.save();
 
     // Creating a transaction record for the deposit
     await Transaction.create({
-      userId,
-      amount,
-      type: 'deposit', // The type of transaction is 'deposit'
+      user_id: userId,
+      amount: depositAmount,
+      type: 'deposit',
       description,
-      date: new Date()
+      date: new Date(),
     });
 
-    res.status(200).json({ message: 'Deposit successful', balance: user.balance }); // if successful
+    res.status(200).json({ message: 'Deposit successful', balance: user.balance });
   } catch (error) {
-    res.status(500).json({ message: 'Error making deposit', error }); // if failure
+    console.error('Error in deposit function:', error);
+    res.status(500).json({ message: 'Error making deposit', error: error.message });
   }
 };
 
-// Withdraw route handler
-const withdraw = async (req, res) => { 
-  const { userId, amount, description } = req.body; // Destructuring request body for user ID, amount, and description
+const withdraw = async (req, res) => {
+  const { amount, description } = req.body;
+  const token = req.headers.authorization.split(' ')[1];
+
+  console.log('Request Body:', req.body); // Log the request body
+  console.log('JWT Token:', token); // Log the JWT token
 
   try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userId = decoded.userId;
+
+    console.log('Decoded JWT:', decoded); // Log the decoded JWT
+
     // Finding the user by userId
     const user = await User.findByPk(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User  not found' }); // If user doesn't exist
+      console.log('User   not found:', userId); // Log if user is not found
+      return res.status(404).json({ message: 'User   not found' });
     }
 
     // Checking if the user has sufficient balance
     if (user.balance < amount) {
-      return res.status(400).json({ message: 'Insufficient funds' }); // If not enough balance
+      console.log('Insufficient funds:', user.balance); // Log insufficient funds
+      return res.status(400).json({ message: 'Insufficient funds' });
     }
 
-    // Subtracting the withdrawal amount from the user's balance
-    user.balance -= amount; 
-    await user.save();  // Saving the updated balance to the database
+    // Subt racting the withdrawal amount from the user's balance
+    user.balance -= amount;
+    await user.save();
 
     // Creating a transaction record for the withdrawal
     await Transaction.create({
-      userId,
+      user_id: userId,
       amount,
-      type: 'withdraw', // The type of transaction is 'withdraw'
+      type: 'withdraw',
       description,
-      date: new Date()
+      date: new Date(),
     });
 
-    res.status(200).json({ message: 'Withdrawal successful', balance: user.balance }); // If successful
+    console.log('Withdrawal successful:', user.balance); // Log successful withdrawal
+    res.status(200).json({ message: 'Withdrawal successful', balance: user.balance });
   } catch (error) {
-    res.status(500).json({ message: 'Error making withdrawal', error }); // If failure
+    console.error('Error in withdraw function:', error); // Log the error
+    res.status(500).json({ message: 'Error making withdrawal', error: error.message });
   }
 };
 

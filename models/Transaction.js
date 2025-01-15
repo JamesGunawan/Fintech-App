@@ -24,13 +24,12 @@ const Transaction = sequelize.define('Transaction', {
       },
   description: {
       type: DataTypes.STRING(255),
-      allowNull: false
   },
   user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-          model: 'User',  // Name of the target model (User)
+          model: 'Users',  // Name of the target model (User)
           key: 'user_id',  // The key (column) to reference in the User model
       },
   },

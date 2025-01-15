@@ -8,7 +8,8 @@ import cors from 'cors';  // Import CORS package
 import path from 'path';  // Import path module to resolve directory paths
 import { fileURLToPath } from 'url'; // Import fileURLToPath
 import { dirname } from 'path'; // Import dirname
-
+import jwt from 'jsonwebtoken'; // Import JSON Web Token package
+import User from './models/User.js'; // Import the User model
 
 dotenv.config();
 const app = express();
@@ -44,13 +45,36 @@ app.get('/', (req, res) => {
   res.render('auth', { message: '' }); 
 });
 
-app.get('/home', (req, res) => {
-  res.render('index.ejs'); // Serve index.ejs at the /home route
+app.get('/home', async (req, res) => {
+  const token = req.query.token; // Get the token from the query parameters
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Verify the JWT token
+    const SECRET_KEY = process.env. JWT_SECRET;
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const userId = decoded.userId;
+
+    // Find the user by userId
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User    not found' });
+    }
+
+    // Render the index.ejs template with the user's balance
+    res.render('index.ejs', { balance: user.balance });
+  } catch (error) {
+    console.error('Error fetching balance:', error);
+    res.status(500).json({ message: 'Error fetching balance', error: error.message });
+  }
 });
 
 
 // Sync Sequelize models and start the server
-await sequelize.sync()
+await sequelize.sync();
 
 
 // Start the server

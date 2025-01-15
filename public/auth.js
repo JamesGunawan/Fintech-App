@@ -89,8 +89,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
           sessionStorage.setItem('jwt', token);
           sessionStorage.setItem('userId', userId);
 
-          // Redirect to the home page
-          window.location.href = '/home'; 
+          // Redirect to the home page with the token as a query parameter
+          window.location.href = `/home?token=${token}`;
       } else {
           // Handle errors (e.g., invalid credentials)
           document.getElementById('messages').textContent = result.message || 'An error occurred.';

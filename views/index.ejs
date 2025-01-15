@@ -8,7 +8,7 @@
 <body>
     <div class="accountbal">
         <h2>Account Balance</h2>
-        <div id="balance">Your balance: $0.00</div>
+        <div id="balance"> Your Balance: $<%= balance %></div>
     </div>
 
     <div class="transaction">
@@ -22,7 +22,7 @@
                 <option value="withdraw">Withdraw</option>
             </select>
             <h4>Description</h4>
-            <input type="text" id="transactionDescription" required> 
+            <input type="text" id="transactionDescription"> 
             <button type="submit">Submit</button>
         </form>
     </div>

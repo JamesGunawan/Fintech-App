@@ -6,7 +6,7 @@ document.getElementById('transactionForm').addEventListener('submit', async func
     const type = document.getElementById('transactionType').value;
     const description = document.getElementById('transactionDescription').value;
 
-    // Get the user ID from session storage (assuming it's stored after login)
+    // Get the user ID from session storage 
     const userId = sessionStorage.getItem('userId'); // Ensure this is set during login
 
     if (!userId) {
@@ -39,8 +39,12 @@ document.getElementById('transactionForm').addEventListener('submit', async func
 
         // Handle the response
         if (response.ok) {
-            alert(`Transaction successful! New balance: ${result.balance}`);
+            alert(`Transaction successful! New balance: ${result.balance} (refresh page to see updated balance)`);
             // Optionally, update the UI to reflect the new balance
+            
+            // Clear the form fields
+            document.getElementById('transactionForm').reset();
+
         } else {
             alert(result.message || 'An error occurred.');
         }

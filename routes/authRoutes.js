@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
   }
 };
 
-const SECRET_KEY = process.env.JWT_SECRET || 'I*enyoinyo*&@YO*@Y'; // Use a strong secret key
+const SECRET_KEY = process.env.JWT_SECRET || 'I*enyoinyo*&@YO*@Y';
 
 // Login user
 const login = async (req, res) => {
@@ -43,6 +43,7 @@ const login = async (req, res) => {
 
       // If login is successful, generate a JWT
       const token = jwt.sign({ userId: user.user_id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+      
 
       // Respond with the token and userId
       res.json({ token, userId: user.user_id });
@@ -52,4 +53,4 @@ const login = async (req, res) => {
 };
 
 // Exporting the routes for use in other parts of the application
-export { signUp, login };
+export { signUp, login, SECRET_KEY };
