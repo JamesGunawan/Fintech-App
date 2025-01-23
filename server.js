@@ -74,7 +74,7 @@ app.get('/home', async (req, res) => {
 
 
 // Sync Sequelize models and start the server
-await sequelize.sync();
+await sequelize.sync({force: true});
 
 
 // Start the server
